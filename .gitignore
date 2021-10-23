@@ -1,0 +1,13 @@
+/target/
+/.settings/
+/bin/
+
+*.iml
+*.class
+
+.classpath
+.project
+batchfile
+dependency-reduced-pom.xml
+
+*.sh
