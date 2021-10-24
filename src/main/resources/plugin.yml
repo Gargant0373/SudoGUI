@@ -1,0 +1,8 @@
+name: SudoGUI
+main: gargant.sudogui.main.SudoGUI
+version: "1.0"
+author: Gargant
+commands:
+  sudogui:
+    usage: "/sudogui help"
+    description: "Main command for SudoGUI!"

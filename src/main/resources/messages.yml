@@ -1,0 +1,7 @@
+prefix: "&c&lSudoGUI "
+messages:
+  plugin:
+    no-permission: "&cYou are not allowed to do that!"
+    container:
+      invalid: "&4%name% &cis not a valid container!"
+      removed: "&a%name% has been deleted!"
