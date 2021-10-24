@@ -32,7 +32,7 @@ public class SerializeableContainer {
 	public String getContainerName() {
 		return containerName;
 	}
-
+	
 	public void setContainerName(String containerName) {
 		this.containerName = containerName;
 	}
@@ -57,7 +57,12 @@ public class SerializeableContainer {
 		return this.itemPositions.get(s);
 	}
 
-	public void addItem(ItemStack item, String command) {
+	public void addItem(ItemStack item, String command, int position) {
 		this.items.put(item, command);
+		this.itemPositions.put(item, position);
+	}
+	
+	public void updateCommand(ItemStack s, String command) {
+		this.items.put(s, command);
 	}
 }
