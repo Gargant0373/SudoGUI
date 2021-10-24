@@ -20,11 +20,16 @@ public class SudoContainer extends ImmutableContainer {
 	}
 
 	private Map<UUID, SerializeableContainer> containerViewing = new HashMap<>();
+	
+	public void setViewing(Player p, SerializeableContainer c) {
+		this.containerViewing.put(p.getUniqueId(), c);
+	}
 
 	@Override
 	public void onTopClick(InventoryClickEvent ev) {
 		Player p = (Player) ev.getWhoClicked();
 		ev.setCancelled(true);
+		p.sendMessage("test");
 		// Deprecated because Matt is coo coo
 		@SuppressWarnings("deprecation")
 		String command = lib.getNmsAPI().getNBTTagValueString(ev.getCurrentItem(), "command");
@@ -53,7 +58,7 @@ public class SudoContainer extends ImmutableContainer {
 
 	@Override
 	public int getUpdatingInterval() {
-		return 20;
+		return 5;
 	}
 
 	@Override
