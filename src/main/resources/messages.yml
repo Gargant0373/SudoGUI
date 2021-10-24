@@ -2,6 +2,10 @@ prefix: "&c&lSudoGUI "
 messages:
   plugin:
     no-permission: "&cYou are not allowed to do that!"
+    exception:
+      number-format: "&c%number% is not a valid number!"
+      invalid-size: "&c%size% must be divideable by 9 and maximum 54." 
     container:
       invalid: "&4%name% &cis not a valid container!"
       removed: "&a%name% has been deleted!"
+      created: "&aCreated container %name% with the size of %size% and %item-count% items!"
