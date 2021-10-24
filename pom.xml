@@ -57,10 +57,5 @@
 			<artifactId>M-Lib</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>masecla</groupId>
-			<artifactId>MorphuscateClient</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 </project>
