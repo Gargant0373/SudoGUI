@@ -22,8 +22,8 @@ import net.wesjd.anvilgui.AnvilGUI;
 public class ContainerEditor extends ImmutableContainer {
 
 	private ContainerManager containerManager;
-	
-	public ContainerEditor(MLib lib,ContainerManager containerManager) {
+
+	public ContainerEditor(MLib lib, ContainerManager containerManager) {
 		super(lib);
 		this.containerManager = containerManager;
 	}
@@ -41,7 +41,6 @@ public class ContainerEditor extends ImmutableContainer {
 
 		Player p = (Player) ev.getWhoClicked();
 		if (ev.getClick().equals(ClickType.MIDDLE)) {
-			p.sendMessage("test");
 			new AnvilGUI.Builder().plugin(lib.getPlugin()).text("Enter command!").title("Enter command to run!")
 					.itemLeft(new ItemStack(Material.PAPER))
 					.onClose(c -> lib.getContainerAPI().openFor(c, ContainerEditor.class)).onComplete((c, r) -> {
@@ -50,28 +49,26 @@ public class ContainerEditor extends ImmutableContainer {
 					}).open(p);
 		}
 	}
-	
+
 	@Override
 	public void onClose(InventoryCloseEvent event) {
 		Player p = (Player) event.getPlayer();
-		
+
 		SerializeableContainer cont = this.viewing.get(p.getUniqueId());
-		
-		cont.getItems().clear();
-		int itemsRegistered = 0;
-		for (int i = 0; i < p.getInventory().getContents().length; i++) {
-			if (p.getInventory().getItem(i) != null && !p.getInventory().getItem(i).getType().equals(Material.AIR)) {
-				itemsRegistered++;
-				cont.addItem(p.getInventory().getItem(i), null, i);
+
+		Inventory inv = event.getInventory();
+
+		Map<ItemStack, String> itemCommands = cont.getItems();
+
+		cont.clearItems();
+		for (int i = 0; i < inv.getContents().length; i++) {
+			if (inv.getItem(i) != null && !inv.getItem(i).getType().equals(Material.AIR)) {
+				cont.addItem(inv.getItem(i), itemCommands.getOrDefault(inv.getItem(i), null), i);
 			}
 		}
-		
+
 		this.containerManager.deleteContainer(cont);
 		this.containerManager.registerContainer(cont);
-		
-		lib.getMessagesAPI().sendMessage("container.created", p, new Replaceable("%name%", cont.getContainerName()),
-				new Replaceable("%size%", cont.getContainerSize()),
-				new Replaceable("%item-count%", itemsRegistered));
 	}
 
 	@Override
@@ -90,7 +87,7 @@ public class ContainerEditor extends ImmutableContainer {
 
 	@Override
 	public int getSize() {
-		return 0;
+		return 54;
 	}
 
 	@Override
@@ -100,6 +97,11 @@ public class ContainerEditor extends ImmutableContainer {
 
 	@Override
 	public boolean requiresUpdating() {
+		return false;
+	}
+
+	@Override
+	public boolean updateOnClick() {
 		return false;
 	}
 
