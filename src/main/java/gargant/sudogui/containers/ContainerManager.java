@@ -81,13 +81,14 @@ public class ContainerManager {
 			return false;
 
 		List<SerializeableContainer> registeredContainers = this.getContainers();
-
-		if (!registeredContainers.contains(cont)) {
-			return false;
+		List<SerializeableContainer> clearedContainers = new ArrayList<>();
+		
+		for(SerializeableContainer c : registeredContainers) {
+			if(!c.getContainerName().equals(cont.getContainerName()))
+				clearedContainers.add(c);
 		}
 
-		registeredContainers.remove(cont);
-		this.updateContainerList(registeredContainers);
+		this.updateContainerList(clearedContainers);
 		return true;
 	}
 
