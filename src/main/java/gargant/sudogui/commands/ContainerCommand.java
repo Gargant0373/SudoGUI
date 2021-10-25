@@ -40,6 +40,18 @@ public class ContainerCommand extends Registerable {
 	}
 
 	/**
+	 * Container list handling. 
+	 */
+	@SubcommandInfo(subcommand = "container list", permission = "sudogui.list")
+	public void onList(Player p) {
+		StringBuilder b = new StringBuilder();
+		this.containerManager.getContainers().forEach(c -> {
+			b.append(c.getContainerName() + "&7, &f");
+		});
+		p.sendMessage(b.toString());
+	}
+	
+	/**
 	 * Delete command handling.
 	 */
 	@SubcommandInfo(subcommand = "delete", permission = "sudogui.delete")
