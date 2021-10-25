@@ -45,6 +45,10 @@ public class SerializeableContainer {
 		this.containerSize = containerSize;
 	}
 
+	public void clearItems() {
+		this.items = new HashMap<>();
+	}
+	
 	public Map<ItemStack, String> getItems() {
 		return items;
 	}
