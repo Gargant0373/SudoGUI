@@ -1,6 +1,9 @@
 package gargant.sudogui.containers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -12,8 +15,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
-import masecla.mlib.classes.Replaceable;
 import masecla.mlib.containers.generic.ImmutableContainer;
 import masecla.mlib.main.MLib;
 import net.md_5.bungee.api.ChatColor;
@@ -42,12 +45,24 @@ public class ContainerEditor extends ImmutableContainer {
 		Player p = (Player) ev.getWhoClicked();
 		if (ev.getClick().equals(ClickType.MIDDLE)) {
 			new AnvilGUI.Builder().plugin(lib.getPlugin()).text("Enter command!").title("Enter command to run!")
-					.itemLeft(new ItemStack(Material.PAPER))
+					.itemLeft(this.getAnvilPaper())
 					.onClose(c -> lib.getContainerAPI().openFor(c, ContainerEditor.class)).onComplete((c, r) -> {
+						if (r.startsWith("/"))
+							r = r.substring(1, r.length());
 						this.viewing.get(c.getUniqueId()).updateCommand(ev.getCurrentItem(), r);
-						return AnvilGUI.Response.text("Updated!");
+						return AnvilGUI.Response.close();
 					}).open(p);
 		}
+	}
+
+	private ItemStack getAnvilPaper() {
+		ItemStack s = new ItemStack(Material.PAPER);
+		ItemMeta m = s.getItemMeta();
+		m.setDisplayName(ChatColor.YELLOW + "Command Update Menu!");
+		m.setLore(Arrays.asList("", ChatColor.translateAlternateColorCodes('&', "&fRename this item to the command"),
+				ChatColor.translateAlternateColorCodes('&', "&fyou want to run on click!")));
+		s.setItemMeta(m);
+		return s;
 	}
 
 	@Override
@@ -79,7 +94,7 @@ public class ContainerEditor extends ImmutableContainer {
 				ChatColor.translateAlternateColorCodes('&', cont.getContainerName() + " &7Editor"));
 
 		cont.getItems().forEach((c, v) -> {
-			inv.setItem(cont.getPositionForItem(c), c);
+			inv.setItem(cont.getPositionForItem(c), this.buildLore(c));
 		});
 
 		return inv;
@@ -103,6 +118,19 @@ public class ContainerEditor extends ImmutableContainer {
 	@Override
 	public boolean updateOnClick() {
 		return false;
+	}
+
+	private ItemStack buildLore(ItemStack s) {
+		ItemStack item = s.clone();
+		ItemMeta m = item.getItemMeta();
+		List<String> lore = m.getLore();
+		if (lore == null)
+			lore = new ArrayList<>();
+		lore.add("");
+		lore.add(ChatColor.translateAlternateColorCodes('&', "&7- &fMiddle click to edit command!"));
+		m.setLore(lore);
+		item.setItemMeta(m);
+		return item;
 	}
 
 }
